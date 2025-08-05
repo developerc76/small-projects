@@ -1,1 +1,3 @@
-# c
+Just some little things...
+
+To compile the c programs, I use GCC. 
