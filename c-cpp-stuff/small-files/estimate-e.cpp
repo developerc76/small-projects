@@ -13,6 +13,7 @@ int main() {
 printf("n= ");
 int n; cin >> n; 
 double e = 0;
+e+=(1.0/(double)factorial(n));
 while (n--) e+=(1.00/(double)factorial(n));
 cout << e << '\n';
 return 0;
