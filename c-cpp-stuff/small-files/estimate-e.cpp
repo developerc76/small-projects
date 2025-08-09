@@ -13,7 +13,7 @@ int main() {
 printf("n= ");
 int n; cin >> n; 
 int e = 1;
-while (n--) e*=(1/factorial(n));
+while (n--) e+=(1/factorial(n));
 cout << e << '\n';
 return 0;
 }
