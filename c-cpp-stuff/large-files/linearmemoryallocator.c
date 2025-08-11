@@ -66,7 +66,7 @@ void linearReset(linearAllocator* allocator) {
     printf("Pool Size: %zu; Memory Pool: %p; Current: %p\n", allocator->pool_size, allocator->memory_pool, allocator->current_pos); 
 }
 
-// memory pool = char array
-// pointer to first empty spot (in a bitmap - the first zero) = current pos
+// memory pool = char array since char pointers can be used for any data type
+// pointer to first empty spot
 // if new data fits in pool, add it and move the pointer
 // deallocate by moving to the beginning of the pool

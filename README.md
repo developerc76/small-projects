@@ -8,7 +8,7 @@ Blackjack, Gradient Descents, File Tool, Coinflip, Matrix Inverse (2x2 & 3x3), P
 
 C/C++: 
 
-Linear Memory Allocator, a few data structures, Test Programs, e Estimation (Monte Carlo)
+Linear Memory Allocator, a few data structures, Test Programs, e Estimation (Using the Sum of 1/i! (0 <= i <= ∞))
 
 Other: 
 
