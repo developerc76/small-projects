@@ -10,8 +10,12 @@ long double factorial (int a) {
     return ans;
 }
 int main() {
-    printf("n= ");
-    long long n; cin >> n; 
+    long long n = 0; 
+    while (n == 0 || n > 9999) {
+        printf("CONSTRAINTS FOR n: 0 < n <= 9999; "); 
+        printf("n= ");
+        cin >> n; 
+    }
     long double e = 0.0;
     for (long long i = 0; i <= n; i++) {
         e+=(1.0/factorial(i));
