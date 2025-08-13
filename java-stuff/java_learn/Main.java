@@ -6,10 +6,10 @@ public class Main {
     private static void chapter3() {
         // variables
         int a = 1; 
-        double b = 3.5; 
-        boolean c = true; 
+        // double b = 3.5; 
+        // boolean c = true; 
         char d = 'd'; 
-        int p = 2, q = 4; 
+        // int p = 2, q = 4; 
         // output methods
         System.out.println("Hello, World!"); 
         System.out.print("Hi, you are the " + a + "st person here!\n"); 
