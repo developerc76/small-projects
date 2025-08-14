@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stddef.h>
 #include<stdlib.h>
+#include<string.h>
 
 typedef struct {
     char *memory_pool; 
@@ -18,26 +19,28 @@ void stackReset(stackAllocator* allocator);
 static size_t SIZE = 128; // in bytes
 
 int main(int argc, char *argv[]) {
+    printf("\e[1;1H\e[2J");
     char data[SIZE];
     stackAllocator allocator; 
     stackInit(&allocator, SIZE, data); 
-    char input = '!'; 
-    while (input != 'q') {
+    char input[] = "!"; 
+    while (strcmp(input, "q") != 0) {
         printf("Allocate (a), Deallocate (d), Quit (q), Reset (r): "); 
-        scanf(" %c", &input); 
-        if (input == 'a') {
-            int bytes = 0; 
-            while (bytes <= 0) {
+        scanf(" %s", input); 
+        if (strcmp(input, "a") == 0) {
+            char bytes[] = "-1"; 
+            while (atoi(bytes) <= 0) {
+		        strcpy(bytes, "-1"); 
                 printf("How many bytes do you want to allocate (1 <= bytes)? "); 
-                scanf("%d", &bytes); 
+                scanf("%s", bytes); 
             }
-            size_t ubytes = bytes; 
+            size_t ubytes = (size_t)atoi(bytes); 
             stackAlloc(&allocator, ubytes); 
-        } else if (input == 'r') {
+        } else if (strcmp(input, "r") == 0) {
             stackReset(&allocator); 
-        } else if (input == 'q') {
+        } else if (strcmp(input, "q") == 0) {
             return 0; 
-        } else if (input == 'd') {
+        } else if (strcmp(input, "d") == 0) {
             stackDealloc(&allocator); 
         } else {
             printf("Invalid Input - Try Again\n");
@@ -95,3 +98,8 @@ void stackReset(stackAllocator* allocator) {
     printf("\nMemory Reset\n"); 
     printf("Pool Size: %zu; Memory Pool: %p; Current: %p\n\n", allocator->pool_size, allocator->memory_pool, allocator->current_pos); 
 }
+
+
+// VULNERABILITIES FOUND: 
+// INPUTTING A MEM_ADDR INTO THE ALLOCATE FUNCTION WILL CORRUPT THE MEMORY AND CHANGE THE POOL ADDRESS, ALONG WITH THE POSITION
+// MEMORY CAN BE OVERFLOWN IF YOU INPUT A LONG ENOUGH STRING WITH ENOUGH "WORDS" WHERE THE QUESTION WILL KEEP REPEATING UNTIL THE COMPUTER CRASHES
