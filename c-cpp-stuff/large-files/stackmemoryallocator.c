@@ -15,6 +15,8 @@ int stackInit(stackAllocator* allocator, size_t size, char* data);
 void* stackAlloc(stackAllocator* allocator, size_t size); 
 void stackDealloc(stackAllocator* allocator); 
 void stackReset(stackAllocator* allocator); 
+size_t getBytes(void); 
+
 
 static size_t SIZE = 128; // in bytes
 
@@ -23,30 +25,40 @@ int main(int argc, char *argv[]) {
     char data[SIZE];
     stackAllocator allocator; 
     stackInit(&allocator, SIZE, data); 
-    char input[] = "!"; 
+    char input[8] = "!"; 
     while (strcmp(input, "q") != 0) {
-        printf("Allocate (a), Deallocate (d), Quit (q), Reset (r): "); 
+        printf("Allocate (a), Clear (c), Deallocate (d), "); 
+        printf("Quit (q), Reset (r), Stats (s): ");
         scanf(" %s", input); 
         if (strcmp(input, "a") == 0) {
-            char bytes[] = "-1"; 
-            while (atoi(bytes) <= 0) {
-		        strcpy(bytes, "-1"); 
-                printf("How many bytes do you want to allocate (1 <= bytes)? "); 
-                scanf("%s", bytes); 
-            }
-            size_t ubytes = (size_t)atoi(bytes); 
-            stackAlloc(&allocator, ubytes); 
+            stackAlloc(&allocator, getBytes());
+        } else if (strcmp(input, "c") == 0) {
+            printf("\e[1;1H\e[2J");
         } else if (strcmp(input, "r") == 0) {
             stackReset(&allocator); 
         } else if (strcmp(input, "q") == 0) {
             return 0; 
         } else if (strcmp(input, "d") == 0) {
             stackDealloc(&allocator); 
+        } else if (strcmp(input, "s") == 0) {
+            printf("Pool Size: %zu; Memory Pool: %p; Current: %p\n", (&allocator)->pool_size, (&allocator)->memory_pool, (&allocator)->current_pos); 
+            printf("Used %zu bytes of memory\n\n", (&allocator)->current_pos - (&allocator)->memory_pool);
         } else {
             printf("Invalid Input - Try Again\n");
+            strcpy(input, "c"); 
         }
     }
     return 0; 
+}
+
+size_t getBytes(void) {
+    int bytes = 0; 
+    while (bytes <= 0 || bytes > SIZE) {
+        printf("How many bytes to allocate (0 <= bytes <= %zu)? ", SIZE); 
+        scanf("%d", &bytes); 
+        bytes%=128; 
+    }
+    return (size_t)bytes; 
 }
 
 int stackInit(stackAllocator* allocator, size_t size, char* data) {
@@ -98,11 +110,3 @@ void stackReset(stackAllocator* allocator) {
     printf("\nMemory Reset\n"); 
     printf("Pool Size: %zu; Memory Pool: %p; Current: %p\n\n", allocator->pool_size, allocator->memory_pool, allocator->current_pos); 
 }
-
-
-// VULNERABILITIES FOUND: 
-// INPUTTING A MEM_ADDR INTO THE ALLOCATE FUNCTION WILL CORRUPT THE MEMORY AND CHANGE THE POOL ADDRESS, ALONG WITH THE POSITION
-// MEMORY CAN BE OVERFLOWN IF YOU INPUT A LONG ENOUGH STRING WITH ENOUGH "WORDS" WHERE THE QUESTION WILL KEEP REPEATING UNTIL THE COMPUTER CRASHES
-
-// VULNERABILITIES FIXED: 
-// USING A STRING IN THE BYTES OR MAIN INPUT PROMPTS WOULD CAUSE AN OVERFLOW -> USING A STRING TO RECEIVE INPUT AND CONVERTING THAT FIXED IT
