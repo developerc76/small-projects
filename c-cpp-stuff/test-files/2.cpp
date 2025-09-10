@@ -2,9 +2,6 @@
 #include <cmath>
 using namespace std;
 
-/* https://www.cplusplus.com/reference/math contains
-more useful math functions in the <cmath> library*/
-
 void test() {
     double x = 3;
     double y = 4;
