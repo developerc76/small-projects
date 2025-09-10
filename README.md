@@ -8,7 +8,7 @@ Small Files: Coinflip, Matrix Inverse (2x2 & 3x3), Pi Estimation (Monte Carlo), 
 
 #### C/C++: 
 
-Small Files: A few data structures, Test Programs, e Estimation (Using the Sum of 1/i! (0 <= i <= ∞)), Chicken Rabbit Puzzle, Pythagorean Triple Checker, nth Fibonacci Number
+Small Files: A few data structures, Test Programs, Euler's Constant Estimation, Chicken Rabbit Puzzle, Pythagorean Triple Checker, nth Fibonacci Number
 
 #### Other: 
 
